@@ -25,7 +25,7 @@
 			});
 		};
 
-		return {
+		var api = {
 			register: function (name, SmallModel) {
 				if ('fetch' in SmallModel && 'refresh' in SmallModel) {
 					return smallModelsCollection[name] = SmallModel;
@@ -59,6 +59,8 @@
 			refreshGroup: function (groupName) {
 				_action('refresh', groupName);
 			}
-		}
+		};
+
+		angular.extend(this, api);
 	}]);
 })();
