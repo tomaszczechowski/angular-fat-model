@@ -5,7 +5,7 @@
 
 	app.service('FatModelService', ['$rootScope', '$q', function ($rootScope, $q) {
 		var $scope = $rootScope.$new(true)
-			,	smallModelsCollection = {};
+      ,	smallModelsCollection = {};
 
 		var _action = function (name, groupName) {
 			var promisses = [];
@@ -28,7 +28,7 @@
 		var api = {
 			register: function (name, SmallModel) {
 				if ('fetch' in SmallModel && 'refresh' in SmallModel) {
-					return smallModelsCollection[name] = SmallModel;
+				  return smallModelsCollection[name] = SmallModel;
 				}
 
 				throw new Error('[FatModel:Error] - Small model needs to have implemented "fetch" and "refresh" method!');
