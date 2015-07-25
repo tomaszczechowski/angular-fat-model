@@ -1,5 +1,5 @@
 /**
- * FatModel provider.
+ * @name FatModel provider.
  * Plugin to manage models in your application.
  * {@link https://github.com/tomaszczechowski/angular-fat-model GitHub}.
  *
