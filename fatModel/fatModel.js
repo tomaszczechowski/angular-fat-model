@@ -1,10 +1,11 @@
 /**
+ * @module $FatModelProvider
  * @name FatModel provider.
- * Plugin to manage models in your application.
- * {@link https://github.com/tomaszczechowski/angular-fat-model GitHub}.
- *
- * Copyright (c) 2015 Tomasz Czechowski
- * Licensed under the MIT license.
+ * @file Provider to manage models queue.
+ * @author Tomasz Czechowski
+ * @copyright Copyright (c) 2015
+ * @license MIT license.
+ * {@link https://github.com/tomaszczechowski/angular-fat-model Angular FatModel}.
  */
 
 (function () {
@@ -15,7 +16,7 @@
   /**
    * FatModel provider definition.
    */
-  app.provider('$FatModel', function () {
+  app.provider('$FatModelProvider', function () {
 
     /**
      * Small model fasade.
