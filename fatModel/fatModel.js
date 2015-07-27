@@ -84,12 +84,12 @@
 
           return _options.promise().then(function () {
 
-            options.success.call(options.success);
+            options.success.apply(options.success, arguments);
             _sendEvent(actionName, 'finished');
 
           },function () {
 
-            options.error.call(options.error);
+            options.error.apply(options.error, arguments);
             _sendEvent(actionName, 'error');
 
           });
