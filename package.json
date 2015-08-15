@@ -5,7 +5,7 @@
   "author": "Tomasz Czechowski",
   "homepage": "https://github.com/tomaszczechowski/angular-fat-model",
   "scripts": {
-    "test": "grunt"
+    "test": "grunt unit"
   },
   "repository": {
     "type": "git",
