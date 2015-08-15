@@ -34,7 +34,7 @@
 
       /**
        * Method is in charge of sending events.
-       * Is used $emit method from Angular.
+       * It uses $emit method from Angular.
        *
        * @access private.
        * @param {string} actionName - action name: fetch/refresh.
@@ -47,7 +47,7 @@
 
       /**
        * Method is in charge of fetching model.
-       * Calls methods success or error depending on result of fetching.
+       * It calls methods "success" or "error" depending on the result of fetching.
        *
        * @access private.
        * @param {string} actionName - action name: fetch/refresh.
@@ -57,7 +57,7 @@
        */
       var _action = function (actionName, group) {
         /**
-         * Method checks whether model belonds to group.
+         * Method checks whether model belongs to group.
          *
          * @access private.
          * @param {string|array} group - name of group or array of groups which has to be fetched or refreshed.
@@ -66,8 +66,8 @@
          */
         var hasGroup = function (group) {
           if (Array.isArray(group)) {
-            for (var i = 0; i < _options.groups.length; i++) {
-              if (group.indexOf(_options.groups[i]) !== -1) {
+            for (var i = 0; i < group.length; i++) {
+              if (_options.groups.indexOf(group[i]) !== -1) {
                 return true;
               }
             }
@@ -82,17 +82,17 @@
             _sendEvent(actionName, 'started');
           });
 
-          return _options.promise().then(function () {
+          return _options.promise().then(
+            function () {
+              _options.success.apply(options.success, arguments);
+              _sendEvent(actionName, 'finished');
+            },
 
-            options.success.apply(options.success, arguments);
-            _sendEvent(actionName, 'finished');
-
-          },function () {
-
-            options.error.apply(options.error, arguments);
-            _sendEvent(actionName, 'error');
-
-          });
+            function () {
+              _options.error.apply(options.error, arguments);
+              _sendEvent(actionName, 'error');
+            }
+          );
         }
 
         return false;
@@ -162,9 +162,8 @@
 
           /**
            * Register model.
-           * Options have to contain parameteres as: name, api, success, error.
            *
-           * @param {object} options. Model configuration.
+           * @param {object} options. Model configuration. Must contain parameteres as: name, api, success, error.
            * @throws Will throw an error in case options does not contain required properties.
            *
            * @returns {object}. Created model.
