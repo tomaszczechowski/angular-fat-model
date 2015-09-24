@@ -169,11 +169,11 @@
            * @returns {object}. Created model.
            */
           register: function (options) {
-            var requiredProperties = ['name', 'api', 'success', 'error'];
+            var requiredProperties = ['name', 'promise', 'success', 'error'];
 
             for (var i = 0; i < requiredProperties.length; i++) {
-              if (!requiredProperties[i] in options) {
-                throw new Error('[FatModel:Register:Error] - Missing property "' + i + '"!');
+              if (!(requiredProperties[i] in options)) {
+                throw new Error('[FatModel:Register:Error] - Missing property "' + requiredProperties[i] + '"!');
               }
             }
 
