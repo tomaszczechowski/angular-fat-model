@@ -1,11 +1,12 @@
 describe("Fat Model", function () {
-  var $FatModelProvider, $q;
+  var $FatModelProvider, $q, $rootScope;
 
   beforeEach(module('FatModelProvider'));
 
-  beforeEach(inject(function(_$FatModelProvider_, _$q_) {
+  beforeEach(inject(function(_$FatModelProvider_, _$q_, _$rootScope_) {
     $FatModelProvider = _$FatModelProvider_;
     $q = _$q_;
+    $rootScope = _$rootScope_;
   }));
 
   describe('Test method "register"', function () {
@@ -37,7 +38,7 @@ describe("Fat Model", function () {
   });
 
   describe('Test method "getModel"', function () {
-    it('Test whether fatModel register method throw error', function () {
+    it('Test whether "getModel" method throw error', function () {
       var getModel = function () {
         $FatModelProvider.getModel('model-test');
       };
@@ -47,7 +48,7 @@ describe("Fat Model", function () {
   });
 
   describe('Test whether fat model runs proper methods at small models', function () {
-    it('Test whether fatModel register method throw error', function () {
+    it('Test whether promise function is run', function () {
       var model = {
         name: 'model-2',
         groups: ['test'],
@@ -66,9 +67,12 @@ describe("Fat Model", function () {
       expect(model.promise).toHaveBeenCalled();
     });
 
-    it('Test whether models from the same group are run', function () {
+    describe('Test whether models from the same group are run', function () {
+      var model_1 = {}
+        , model_2 = {};
+
       beforeEach(function () {
-        var model_1 = {
+        model_1 = {
           name: 'model-1',
           groups: ['group-1'],
           promise: function () {
@@ -78,7 +82,7 @@ describe("Fat Model", function () {
           error: function () {}
         };
 
-        var model_2 = {
+        model_2 = {
           name: 'model-2',
           groups: ['group-2'],
           promise: function () {
@@ -109,5 +113,59 @@ describe("Fat Model", function () {
         expect(model_2.promise).toHaveBeenCalled();
       });
     });
+
+    describe('Test "success" and "error" methods', function () {
+      var defer = null
+        , model = {};
+
+      beforeEach(function () {
+        defer = $q.defer();
+
+        model = {
+          name: 'model-2',
+          groups: ['test'],
+          promise: function () {
+            return defer.promise;
+          },
+          success: function () {},
+          error: function () {}
+        };
+
+        spyOn(model, 'success').and.callThrough();
+        spyOn(model, 'error').and.callThrough();
+
+        $FatModelProvider.register(model);
+        $FatModelProvider.fetchGroup('test');
+      });
+
+      it('Test "success" method', function () {
+        defer.resolve();
+        $rootScope.$apply();
+
+        expect(model.success).toHaveBeenCalled();
+      });
+
+      it('Test "error" method', function () {
+        defer.reject();
+        $rootScope.$apply();
+
+        expect(model.error).toHaveBeenCalled();
+      });
+    });
+  });
+
+  it('Test "refresh" property', function () {
+    var model = {
+      name: 'model-1',
+      groups: ['test'],
+      refresh: false,
+      promise: function () {},
+      success: function () {},
+      error: function () {}
+    };
+
+    var model = $FatModelProvider.register(model);
+
+    expect(model.refresh()).toBeFalsy();
   });
 });
