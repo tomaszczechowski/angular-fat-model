@@ -4,7 +4,6 @@
  *
  * Copyright (c) 2015 Tomasz Czechowski
  * Licensed under the MIT license.
- *
  */
 
 module.exports = function (grunt) {
@@ -15,19 +14,21 @@ module.exports = function (grunt) {
   grunt.initConfig({
     karma: {
       options: {
-        configFile: 'test/karma.conf.js'
+        configFile: 'test/karma.conf.js',
       },
       unit: {
         options: {
           files: [
-            '**/*.spec.js'
+            'lib/angular/angular.min.js',
+            'lib/angular-mocks/angular-mocks.js',
+            '../fatModel/fatModel.js',
+            'specs/*.spec.js'
           ]
         }
       }
     }
   });
-  // Whenever the "test" task is run, first clean the "tmp" dir, then run this
-  // plugin's task(s), then test the result.
+
   grunt.registerTask('unit', ['karma:unit']);
 
   // By default, lint and run all tests.

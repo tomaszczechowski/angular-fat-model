@@ -21,7 +21,7 @@
     }
   ],
   "keywords": [
-    "remove"
+    "fat model", "models", "aggregation of modules", "models collection"
   ],
   "peerDependencies": {},
   "devDependencies": {
