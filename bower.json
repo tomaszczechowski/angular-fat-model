@@ -1,10 +1,11 @@
 {
   "name": "FatModel",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "https://github.com/tomaszczechowski/angular-fat-model",
   "authors": [
     "Tomasz Czechowski <tomasz@czechowski.pl>"
   ],
+  "main": "fatModel/fatModel.js"
   "keywords": [
     "fat model", "models", "aggregation of modules", "models collection"
   ],
@@ -14,7 +15,11 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "Gruntfile.js",
+    "package.json",
+    ".travis.yml",
+    ".gitignore"
   ],
   "dependencies": {
     "angular-mocks": "~1.4.4"
