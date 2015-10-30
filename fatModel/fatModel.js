@@ -3,6 +3,7 @@
  * @name FatModel provider.
  * @file Provider to manage models queue.
  * @author Tomasz Czechowski
+ * @version 0.2.0
  * @copyright Copyright (c) 2015
  * @license MIT license.
  * {@link https://github.com/tomaszczechowski/angular-fat-model Angular FatModel}.
@@ -137,10 +138,27 @@
          * @fires FatModel:{actionName}:{started|finished}
          */
         var _action = function (actionName, group) {
-          var promisses = [];
+          var promisses = []
+            , groupEventName = false;
+
+          var _sendGroupEvent = function (group, type) {
+            if (group) {
+              if (Array.isArray(group)) {
+                for (var i = 0; i < group.length; i++) {
+                  _sendGroupEvent(group[i], type);
+                }
+              } else {
+                $scope.$emit('FatModel:' + actionName + ':' + group + ':' + type);
+              }
+            }
+
+            return;
+          };
 
           $timeout(function () {
             $scope.$emit('FatModel:' + actionName + ':started');
+
+            _sendGroupEvent(group, 'started');
           });
 
           for (var i in modelsCollection) {
@@ -153,6 +171,8 @@
           }
 
           $q.all(promisses).then(function() {
+            _sendGroupEvent(group, 'finished');
+
             $scope.$emit('FatModel:' + actionName + ':finished');
           });
         };
