@@ -116,7 +116,7 @@ Add lib into script
 })();
 ```
 ### Options
-g
+
 
 ## Release History
  * 2015-10-30   v0.2.0   Triggers events for groups.

@@ -5,7 +5,7 @@
   "authors": [
     "Tomasz Czechowski <tomasz@czechowski.pl>"
   ],
-  "main": "fatModel/fatModel.js"
+  "main": "fatModel/fatModel.js",
   "keywords": [
     "fat model", "models", "aggregation of modules", "models collection"
   ],
