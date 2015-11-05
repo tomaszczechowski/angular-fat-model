@@ -84,33 +84,32 @@ Add lib into script
         }
       });
 
-      $timeout(function () {
-        $FatModelProvider.fetch();
-        $FatModelProvider.fetchGroup(['group-1']);
+      $FatModelProvider.$on('FatModel:fetch:started', function () {
+        console.log('Started fetching');
+      });
 
-        $FatModelProvider.$on('FatModel:fetch:started', function () {
-          console.log('Started fetching');
-        });
+      $FatModelProvider.$on('FatModel:fetch:finished', function () {
+        console.log('Finished fetching - Do something when all models have been fetched!');
+      });
 
-        $FatModelProvider.$on('FatModel:fetch:finished', function () {
-          console.log('Finished fetching - Do something when all models have been fetched!');
-        });
+      $FatModelProvider.getModel('model-1').$on('FatModel:fetch:started', function () {
+        console.log('Started fetching model-1');
+      });
 
-        $FatModelProvider.getModel('model-1').$on('FatModel:fetch:started', function () {
-          console.log('Started fetching model-1');
-        });
+      $FatModelProvider.getModel('model-2').$on('FatModel:fetch:finished', function () {
+        console.log('Finished fetching model-1');
+      });
 
-        $FatModelProvider.getModel('model-2').$on('FatModel:fetch:finished', function () {
-          console.log('Finished fetching model-1');
-        });
+      $FatModelProvider.$on('FatModel:fetch:main:started', function () {
+        console.log('Started fetching group main');
+      });
 
-        $FatModelProvider.$on('FatModel:fetch:main:started', function () {
-          console.log('Started fetching group main');
-        });
+      $FatModelProvider.$on('FatModel:fetch:main:finished', function () {
+        console.log('Finished fetching group main');
+      });
 
-        $FatModelProvider.$on('FatModel:fetch:main:finished', function () {
-          console.log('Finished fetching group main');
-        });
+      $FatModelProvider.fetch();
+      $FatModelProvider.fetchGroup(['group-1']);
     });
   ]);
 })();
@@ -119,6 +118,7 @@ Add lib into script
 
 
 ## Release History
+ * 2015-11-05   v0.2.1   Removed timeouts.
  * 2015-10-30   v0.2.0   Triggers events for groups.
  * 2015-09-28   v0.1.0   First version of plugin.
 

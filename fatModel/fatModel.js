@@ -29,7 +29,7 @@
      *
      * @returns {object} - API of model.
      */
-    var SmallModelFasade = function (options, $rootScope, $timeout) {
+    var SmallModelFasade = function (options, $rootScope) {
       var $scope = $rootScope.$new(true)
         , _options = angular.copy(options);
 
@@ -79,9 +79,7 @@
         };
 
         if (!group || (group && hasGroup(group))) {
-          $timeout(function () {
-            _sendEvent(actionName, 'started');
-          });
+          _sendEvent(actionName, 'started');
 
           return _options.promise().then(
             function () {
@@ -124,7 +122,7 @@
         refresh: true,
         groups: []
       },
-      $get: ['$q', '$rootScope', '$timeout', function ($q, $rootScope, $timeout) {
+      $get: ['$q', '$rootScope', function ($q, $rootScope) {
 
         var $scope = $rootScope.$new(true)
           , modelsCollection = {};
@@ -155,11 +153,9 @@
             return;
           };
 
-          $timeout(function () {
-            $scope.$emit('FatModel:' + actionName + ':started');
+          $scope.$emit('FatModel:' + actionName + ':started');
 
-            _sendGroupEvent(group, 'started');
-          });
+          _sendGroupEvent(group, 'started');
 
           for (var i in modelsCollection) {
             var modelFeedback = modelsCollection[i][actionName](group);
@@ -199,7 +195,7 @@
 
             var _options = angular.extend($FatModelProvider.options, options);
 
-            return modelsCollection[options.name] = SmallModelFasade(_options, $rootScope, $timeout);
+            return modelsCollection[options.name] = SmallModelFasade(_options, $rootScope);
           },
 
           /**
