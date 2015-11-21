@@ -118,6 +118,7 @@ Add lib into script
 
 
 ## Release History
+ * 2015-11-21   v0.2.2   Updated bower and package files on new keywords.
  * 2015-11-05   v0.2.1   Removed timeouts.
  * 2015-10-30   v0.2.0   Triggers events for groups.
  * 2015-09-28   v0.1.0   First version of plugin.

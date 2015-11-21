@@ -1,13 +1,13 @@
 {
   "name": "angular-fat-model",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "homepage": "https://github.com/tomaszczechowski/angular-fat-model",
   "authors": [
     "Tomasz Czechowski <tomasz@czechowski.pl>"
   ],
   "main": "fatModel/fatModel.js",
   "keywords": [
-    "fat model", "models", "aggregation of modules", "models collection"
+     "fat model", "models", "aggregation of models", "models collection", "controlling asynchronous request to API", "controlling asynchronous operation by using events", "API requests events", "subscribing to API requests"
   ],
   "license": "MIT",
   "ignore": [

@@ -1,6 +1,6 @@
 {
   "name": "Angular-Fat-Model",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Angular provider used to aggregates models in groups.",
   "author": "Tomasz Czechowski",
   "homepage": "https://github.com/tomaszczechowski/angular-fat-model",
@@ -21,7 +21,7 @@
     }
   ],
   "keywords": [
-    "fat model", "models", "aggregation of modules", "models collection"
+    "fat model", "models", "aggregation of models", "models collection", "controlling asynchronous request to API", "controlling asynchronous operation by using events", "API requests events", "subscribing to API requests"
   ],
   "peerDependencies": {},
   "devDependencies": {
