@@ -85,6 +85,14 @@
             function () {
               _options.success.apply(options.success, arguments);
               _sendEvent(actionName, 'finished');
+
+              var response = {
+                name: _options.name,
+                data: arguments[0] || null,
+                args: arguments
+              };
+
+              return response;
             },
 
             function () {
@@ -133,9 +141,11 @@
          * @access private.
          * @param {string} actionName - action name: fetch/refresh.
          * @param {string|array} group - name of group or array of groups which has to be fetched or refreshed.
+         * @param {function} successCallback - success callback raised once all models are fetched.
+         * @param {function} errorCallback - error callback in case at least one model raised error.
          * @fires FatModel:{actionName}:{started|finished}
          */
-        var _action = function (actionName, group) {
+        var _action = function (actionName, group, successCallback, errorCallback) {
           var promisses = []
             , groupEventName = false;
 
@@ -153,6 +163,10 @@
             return;
           };
 
+          var _successCallback = (typeof successCallback === 'function') ? successCallback : angular.noop;
+
+          var _errorCallback = (typeof errorCallback === 'function') ? errorCallback : angular.noop;
+
           $scope.$emit('FatModel:' + actionName + ':started');
 
           _sendGroupEvent(group, 'started');
@@ -167,9 +181,13 @@
           }
 
           $q.all(promisses).then(function() {
+            _successCallback.apply(_successCallback, arguments);
+
             _sendGroupEvent(group, 'finished');
 
             $scope.$emit('FatModel:' + actionName + ':finished');
+          }, function () {
+            _errorCallback.apply(_errorCallback, arguments);
           });
         };
 
@@ -233,9 +251,12 @@
 
           /**
            * Method starts fetching models from queue.
+           *
+           * @param {function} successCallback - success callback raised once all models are fetched.
+           * @param {function} errorCallback - error callback in case at least one model raised error.
            */
-          fetch: function () {
-            _action('fetch');
+          fetch: function (successCallback, errorCallback) {
+            _action('fetch', null, successCallback, errorCallback);
           },
 
           /**
@@ -250,8 +271,8 @@
            *
            * @param {string|array} group. Group name or array of groups.
            */
-          fetchGroup: function (group) {
-            _action('fetch', group);
+          fetchGroup: function (group, successCallback, errorCallback) {
+            _action('fetch', group, successCallback, errorCallback);
           },
 
           /**

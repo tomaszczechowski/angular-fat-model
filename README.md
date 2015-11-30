@@ -109,7 +109,20 @@ Add lib into script
       });
 
       $FatModelProvider.fetch();
+
+      // or
+
+      $FatModelProvider.fetch(function (response) {
+        console.log('Success! - response', response);
+      });
+
+      // or
+
       $FatModelProvider.fetchGroup(['group-1']);
+
+      $FatModelProvider.getModel('model-1').fetch().then(function (response) {
+        console.log('Success! - response:', response);
+      });
     });
   ]);
 })();
@@ -118,6 +131,7 @@ Add lib into script
 
 
 ## Release History
+ * 2015-11-21   v0.3.0   Added success and error callbacks.
  * 2015-11-21   v0.2.2   Updated bower and package files on new keywords.
  * 2015-11-05   v0.2.1   Removed timeouts.
  * 2015-10-30   v0.2.0   Triggers events for groups.
