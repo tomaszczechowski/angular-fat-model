@@ -108,22 +108,21 @@ Add lib into script
         console.log('Finished fetching group main');
       });
 
-      $FatModelProvider.fetch();
-
-      // or
-
-      $FatModelProvider.fetch(function (response) {
-        console.log('Success! - response', response);
+      $FatModelProvider.fetch().then(function (response) {
+        console.log('All fetch response:', response);
       });
 
-      // or
+      // OR
 
-      $FatModelProvider.fetchGroup(['group-1']);
+      $FatModelProvider.fetchGroup(['other']).then(function (response) {
+        console.log('Group fetch response:', response);
+      });
+
+      // OR
 
       $FatModelProvider.getModel('model-1').fetch().then(function (response) {
-        console.log('Success! - response:', response);
+        console.log('Model-1 response:', response);
       });
-    });
   ]);
 })();
 ```
@@ -131,6 +130,7 @@ Add lib into script
 
 
 ## Release History
+ * 2015-11-21   v0.4.0   Removed success and error callbacks. Returns promise on fetch and fetchGroup call.
  * 2015-11-21   v0.3.0   Added success and error callbacks.
  * 2015-11-21   v0.2.2   Updated bower and package files on new keywords.
  * 2015-11-05   v0.2.1   Removed timeouts.
