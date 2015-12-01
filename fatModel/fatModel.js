@@ -3,7 +3,7 @@
  * @name FatModel provider.
  * @file Provider to manage models queue.
  * @author Tomasz Czechowski
- * @version 0.4.0
+ * @version 0.4.1
  * @copyright Copyright (c) 2015
  * @license MIT license.
  * {@link https://github.com/tomaszczechowski/angular-fat-model Angular FatModel}.
@@ -179,11 +179,11 @@
 
             $scope.$emit('FatModel:' + actionName + ':finished');
 
-            return arguments;
+            return arguments[0];
           }, function () {
             _errorCallback.apply(_errorCallback, arguments);
 
-            return arguments;
+            return arguments[0];
           });
         };
 

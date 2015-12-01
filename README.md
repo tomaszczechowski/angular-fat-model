@@ -130,6 +130,7 @@ Add lib into script
 
 
 ## Release History
+ * 2015-11-21   v0.4.1   Change response of fetch and fetchGroup methods.
  * 2015-11-21   v0.4.0   Removed success and error callbacks. Returns promise on fetch and fetchGroup call.
  * 2015-11-21   v0.3.0   Added success and error callbacks.
  * 2015-11-21   v0.2.2   Updated bower and package files on new keywords.
