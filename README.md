@@ -92,6 +92,10 @@ Add lib into script
         console.log('Finished fetching - Do something when all models have been fetched!');
       });
 
+      $FatModelProvider.$on('FatModel:fetch:error', function ($event, error) {
+        console.log('Fetching with errors', errors);
+      });
+
       $FatModelProvider.getModel('model-1').$on('FatModel:fetch:started', function () {
         console.log('Started fetching model-1');
       });
@@ -130,6 +134,7 @@ Add lib into script
 
 
 ## Release History
+ * 2016-01-14   v0.4.2   Fixed small bugs & fixed error handling.
  * 2015-11-21   v0.4.1   Change response of fetch and fetchGroup methods.
  * 2015-11-21   v0.4.0   Removed success and error callbacks. Returns promise on fetch and fetchGroup call.
  * 2015-11-21   v0.3.0   Added success and error callbacks.

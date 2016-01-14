@@ -23,13 +23,13 @@
      * Small model fasade.
      *
      * @name SmallModel.
-     * @param {object} Options - object contains model configuration.
+     * @param {object} options - object contains model configuration.
+     * @param {object} $q - Angular $q object.
      * @param {object} $rootScope - Angular $rootScope object.
-     * @param {object} $timeout - Angular $timeout object.
      *
      * @returns {object} - API of model.
      */
-    var SmallModelFasade = function (options, $rootScope) {
+    var SmallModelFasade = function (options, $q, $rootScope) {
       var $scope = $rootScope.$new(true)
         , _options = angular.copy(options);
 
@@ -81,9 +81,11 @@
         if (!group || (group && hasGroup(group))) {
           _sendEvent(actionName, 'started');
 
-          return _options.promise().then(
+          var deferrer = $q.defer();
+
+          _options.promise().then(
             function () {
-              _options.success.apply(options.success, arguments);
+              _options.success.apply(_options.success, arguments);
               _sendEvent(actionName, 'finished');
 
               var response = {
@@ -92,14 +94,18 @@
                 args: arguments
               };
 
-              return response;
+              deferrer.resolve(response);
             },
 
-            function () {
-              _options.error.apply(options.error, arguments);
+            function (error) {
+              _options.error.apply(_options.error, arguments);
               _sendEvent(actionName, 'error');
+
+              deferrer.reject(error);
             }
           );
+
+          return deferrer.promise;
         }
 
         return false;
@@ -144,17 +150,16 @@
          * @fires FatModel:{actionName}:{started|finished}
          */
         var _action = function (actionName, group) {
-          var promisses = []
-            , groupEventName = false;
+          var promisses = [];
 
-          var _sendGroupEvent = function (group, type) {
+          var _sendGroupEvent = function (group, type, data) {
             if (group) {
               if (Array.isArray(group)) {
                 for (var i = 0; i < group.length; i++) {
                   _sendGroupEvent(group[i], type);
                 }
               } else {
-                $scope.$emit('FatModel:' + actionName + ':' + group + ':' + type);
+                $scope.$emit('FatModel:' + actionName + ':' + group + ':' + type, data);
               }
             }
 
@@ -163,7 +168,7 @@
 
           $scope.$emit('FatModel:' + actionName + ':started');
 
-          _sendGroupEvent(group, 'started');
+          _sendGroupEvent(group, 'started', null);
 
           for (var i in modelsCollection) {
             var modelFeedback = modelsCollection[i][actionName](group);
@@ -175,15 +180,17 @@
           }
 
           return $q.all(promisses).then(function() {
-            _sendGroupEvent(group, 'finished');
+            _sendGroupEvent(group, 'finished', null);
 
             $scope.$emit('FatModel:' + actionName + ':finished');
 
             return arguments[0];
-          }, function () {
-            _errorCallback.apply(_errorCallback, arguments);
+          }, function (error) {
+            _sendGroupEvent(group, 'error', null);
 
-            return arguments[0];
+            $scope.$emit('FatModel:' + actionName + ':error', error);
+
+            return error;
           });
         };
 
@@ -209,7 +216,7 @@
 
             var _options = angular.extend($FatModelProvider.options, options);
 
-            return modelsCollection[options.name] = SmallModelFasade(_options, $rootScope);
+            return modelsCollection[options.name] = SmallModelFasade(_options, $q, $rootScope);
           },
 
           /**
@@ -249,14 +256,14 @@
            * Method starts fetching models from queue.
            */
           fetch: function () {
-            return _action('fetch');
+            return _action('fetch', null);
           },
 
           /**
            * Method starts refreshing models from queue.
            */
           refresh: function () {
-            return _action('refresh');
+            return _action('refresh', null);
           },
 
           /**
