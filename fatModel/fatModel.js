@@ -3,7 +3,7 @@
  * @name FatModel provider.
  * @file Provider to manage models queue.
  * @author Tomasz Czechowski
- * @version 0.4.1
+ * @version 0.4.2
  * @copyright Copyright (c) 2015
  * @license MIT license.
  * {@link https://github.com/tomaszczechowski/angular-fat-model Angular FatModel}.
