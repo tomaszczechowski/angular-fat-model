@@ -1,6 +1,6 @@
 {
   "name": "angular-fat-model",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "Angular provider used to aggregates models in groups.",
   "author": "Tomasz Czechowski",
   "homepage": "https://github.com/tomaszczechowski/angular-fat-model",

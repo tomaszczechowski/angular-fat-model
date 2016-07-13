@@ -132,6 +132,7 @@
       /**
        * Default options parameters.
        */
+      status: false,
       options: {
         refresh: true,
         groups: []
@@ -163,8 +164,10 @@
               }
             }
 
-            return;
+            return
           };
+
+          $FatModelProvider.status = 'pending';
 
           $scope.$emit('FatModel:' + actionName + ':started');
 
@@ -180,12 +183,16 @@
           }
 
           return $q.all(promisses).then(function() {
+            $FatModelProvider.status = 'ready';
+
             _sendGroupEvent(group, 'finished', null);
 
             $scope.$emit('FatModel:' + actionName + ':finished');
 
             return arguments[0];
           }, function (error) {
+            $FatModelProvider.status = 'error';
+
             _sendGroupEvent(group, 'error', null);
 
             $scope.$emit('FatModel:' + actionName + ':error', error);
@@ -282,6 +289,30 @@
            */
           refreshGroup: function (group) {
             return _action('refresh', group);
+          },
+
+          /**
+           * Method checks whether Fat Model finished fetching registered models.
+           * @return {Boolean}
+           */
+          isReady: function () {
+            return $FatModelProvider.status === 'ready';
+          },
+
+          /**
+           * Method checks whether Fat Model is still being in progress.
+           * @return {Boolean}
+           */
+          isPending: function () {
+            return $FatModelProvider.status === 'pending';
+          },
+
+          /**
+           * Method checks whether Fat Model was ran with errors.
+           * @return {Boolean}
+           */
+          isError: function () {
+            return $FatModelProvider.status === 'error';
           }
         };
 

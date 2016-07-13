@@ -86,10 +86,15 @@ Add lib into script
 
       $FatModelProvider.$on('FatModel:fetch:started', function () {
         console.log('Started fetching');
+
+        console.log('is ready', $FatModelProvider.isReady());
+        console.log('is pending', $FatModelProvider.isPending());
       });
 
       $FatModelProvider.$on('FatModel:fetch:finished', function () {
         console.log('Finished fetching - Do something when all models have been fetched!');
+
+        console.log('is ready', $FatModelProvider.isReady());
       });
 
       $FatModelProvider.$on('FatModel:fetch:error', function ($event, error) {
@@ -134,6 +139,7 @@ Add lib into script
 
 
 ## Release History
+ * 2016-07-13   v0.5.0   Added isReady, isPending, isError methods.
  * 2016-01-14   v0.4.2   Fixed small bugs & fixed error handling.
  * 2015-11-21   v0.4.1   Change response of fetch and fetchGroup methods.
  * 2015-11-21   v0.4.0   Removed success and error callbacks. Returns promise on fetch and fetchGroup call.
